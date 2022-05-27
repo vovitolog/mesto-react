@@ -2,6 +2,7 @@
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer'
+import PopupWithForm from './PopupWithForm';
 
 function App() {
   return (
@@ -9,7 +10,8 @@ function App() {
     <div className="page">
       <Header/>
       <Main/>
-      <Footer/>   
+      <Footer/>  
+      <PopupWithForm/> 
    
       <section className="popup popup_type_profile-edit">
         <div className="popup__container">
