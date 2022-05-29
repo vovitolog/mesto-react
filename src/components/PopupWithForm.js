@@ -1,15 +1,16 @@
 import React from "react";
 //popup_is-opened
 
-function PopupWithForm() {
+function PopupWithForm(name, title, children) {
   return (
-    <section className="popup popup_type_photo-edit ">
+    <div className={`popup popup_type_${name}`}>
     <div className="popup__container">
       <button className="popup__button-close"></button>
       <div className="popup__content">
-        <h2 className="popup__title">Обновить аватар</h2>
-        <form className="popup__form" name="form-edit" novalidate>
-          <input
+        <h2 className="popup__title">{title}</h2>
+        <form className="popup__form" name={name} novalidate>
+          {children}
+        {/*   <input
             type="url"
             className="popup__input popup__input_type_photo"
             name="photo-url"
@@ -22,11 +23,11 @@ function PopupWithForm() {
 
           <button type="submit" className="popup__button-save">
             Сохранить
-          </button>
+          </button> */}
         </form>
       </div>
     </div>
-  </section>
+  </div>
   );
 }
 
