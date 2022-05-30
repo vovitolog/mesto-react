@@ -4,7 +4,7 @@ import photoChange from "../images/edit_button.svg";
 import api from "../utils/Api";
 import Card from "./Card";
 
-function Main({ onEditProfile, onAddPlace, onEditAvatar }) {
+function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
   const [userName, setUserName] = React.useState(0);
   const [userDescription, setUserDescription] = React.useState(0);
   const [userAvatar, setUserAvatar] = React.useState(0);
@@ -69,7 +69,7 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar }) {
       <section className="cards">
         <ul className="cards__list">
           {cards.map((card) => (
-            <Card card={card} key={card._id} />
+            <Card card={card} key={card._id}  onCardClick={onCardClick}/>
           ))}
         </ul>
       </section>
