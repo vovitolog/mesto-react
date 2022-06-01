@@ -16,5 +16,3 @@
 * React:
   * JSX
   * Хуки useState, UseEffect
-
- Ссылка на проект на [GitHubPages](https://vovitolog.github.io/mesto-react/).
