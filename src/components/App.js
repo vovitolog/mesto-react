@@ -3,7 +3,6 @@ import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
 import PopupWithForm from "./PopupWithForm";
-import Api from "../utils/Api";
 import ImagePopup from "./ImagePopup";
 
 function App() {
@@ -70,7 +69,7 @@ function App() {
           name="profile-edit"
           title="Редактировать профиль"
           children=""
-          isOpen={isEditProfilePopupOpen} // ??
+          isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
         >
           <input
@@ -83,10 +82,7 @@ function App() {
             placeholder="Имя"
             required
           />
-          <span className="popup__input-error" id="name-input-error">
-            {" "}
-            ///????????
-          </span>
+          <span className="popup__input-error" id="name-input-error"></span>
           <input
             minLength="2"
             maxLength="200"
@@ -138,10 +134,7 @@ function App() {
           ></span>
         </PopupWithForm>
 
-        <ImagePopup
-          card={selectedCard}
-          onClose={closeAllPopups}
-        />
+        <ImagePopup card={selectedCard} onClose={closeAllPopups} />
       </div>
     </div>
   );
