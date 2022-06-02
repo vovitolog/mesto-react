@@ -11,7 +11,7 @@ function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
     React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
-  const [selectedCard, setSelectedCard] = React.useState(0);
+  const [selectedCard, setSelectedCard] = React.useState({name: '', link: ''});
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
@@ -30,7 +30,7 @@ function App() {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
-    setSelectedCard(false);
+    setSelectedCard({name: '', link: ''});
   }
 
   return (
@@ -50,6 +50,7 @@ function App() {
           children=""
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
+          buttonText="Сохранить"
         >
           <input
             type="url"
@@ -71,6 +72,7 @@ function App() {
           children=""
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
+          buttonText="Сохранить"
         >
           <input
             minLength="2"
@@ -105,6 +107,7 @@ function App() {
           children=""
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
+          buttonText="Сохранить"
         >
           <input
             minLength="2"

@@ -4,9 +4,9 @@ import api from "../utils/Api";
 import Card from "./Card";
 
 function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
-  const [userName, setUserName] = React.useState(0);
-  const [userDescription, setUserDescription] = React.useState(0);
-  const [userAvatar, setUserAvatar] = React.useState(0);
+  const [userName, setUserName] = React.useState('');
+  const [userDescription, setUserDescription] = React.useState('');
+  const [userAvatar, setUserAvatar] = React.useState('');
   const [cards, setCards] = React.useState([]);
 
   React.useEffect(() => {
