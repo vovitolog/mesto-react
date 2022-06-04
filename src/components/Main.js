@@ -2,14 +2,19 @@ import React from "react";
 import photoChange from "../images/edit_button.svg";
 import api from "../utils/Api";
 import Card from "./Card";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
-  const [userName, setUserName] = React.useState('');
+
+  
+/*   const [userName, setUserName] = React.useState('');
   const [userDescription, setUserDescription] = React.useState('');
-  const [userAvatar, setUserAvatar] = React.useState('');
+  const [userAvatar, setUserAvatar] = React.useState(''); */
   const [cards, setCards] = React.useState([]);
 
-  React.useEffect(() => {
+  const currentUser = React.useContext(CurrentUserContext);
+ 
+/*   React.useEffect(() => {
     api
       .getUserInfo()
       .then((data) => {
@@ -20,7 +25,7 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, []); */
 
   React.useEffect(() => {
     api
@@ -33,6 +38,9 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
       });
   }, []);
 
+
+
+
   return (
     <main className="content">
       <section className="profile">
@@ -41,7 +49,7 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
             <img
               className="profile__photo"
               alt="Фото профиля"
-              src={userAvatar}
+              src={currentUser.avatar}
             />
             <img
               className="profile__photo-edit"
@@ -51,13 +59,13 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
           </div>
           <div className="profile__info">
             <div className="profile__name-wrapper">
-              <h1 className="profile__name">{userName}</h1>
+              <h1 className="profile__name">{currentUser.name}</h1>
               <button
                 onClick={onEditProfile}
                 className="profile__button-edit"
               ></button>
             </div>
-            <p className="profile__profession">{userDescription}</p>
+            <p className="profile__profession">{currentUser.about}</p>
           </div>
         </div>
         <button onClick={onAddPlace} className="profile__button-add"></button>
