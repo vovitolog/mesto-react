@@ -4,6 +4,7 @@ import Main from "./Main";
 import Footer from "./Footer";
 import PopupWithForm from "./PopupWithForm"; ///Убрать
 import EditProfilePopup from "./EditProfilePopup";
+import EditAvatarPopup from "./EditAvatarPopup";
 import ImagePopup from "./ImagePopup";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import api from "../utils/Api";
@@ -51,14 +52,16 @@ function App() {
     setSelectedCard({ name: "", link: "" });
   }
 
-  function handleUpdateUser({name, profession}) {
-    api.setNewUserInfo({name, profession}).then((data)=>{
-      setCurrentUser(data);
-      closeAllPopups();   
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  function handleUpdateUser({ name, profession }) {
+    api
+      .setNewUserInfo({ name, profession })
+      .then((data) => {
+        setCurrentUser(data);
+        closeAllPopups();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   return (
@@ -79,27 +82,10 @@ function App() {
             onUpdateUser={handleUpdateUser}
           />
 
-          <PopupWithForm
-            name="photo-edit"
-            title="Обновить аватар"
-            children=""
+          <EditAvatarPopup
             isOpen={isEditAvatarPopupOpen}
             onClose={closeAllPopups}
-            buttonText="Сохранить"
-          >
-            <input
-              type="url"
-              className="popup__input popup__input_type_photo"
-              name="photo-url"
-              id="photo-url-input"
-              placeholder="Ссылка на фото"
-              required
-            />
-            <span
-              className="popup__input-error"
-              id="photo-url-input-error"
-            ></span>
-          </PopupWithForm>
+          />
 
           <PopupWithForm
             name="card-add"
