@@ -2,7 +2,8 @@ import React from "react";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
-import PopupWithForm from "./PopupWithForm";
+import PopupWithForm from "./PopupWithForm"; ///Убрать
+import EditProfilePopup from './EditProfilePopup';
 import ImagePopup from "./ImagePopup";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import api from "../utils/Api";
@@ -62,6 +63,9 @@ function App() {
             onCardClick={handleCardClick}
           />
           <Footer />
+          <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} /> 
+
+
           <PopupWithForm
             name="photo-edit"
             title="Обновить аватар"
@@ -84,40 +88,7 @@ function App() {
             ></span>
           </PopupWithForm>
 
-          <PopupWithForm
-            name="profile-edit"
-            title="Редактировать профиль"
-            children=""
-            isOpen={isEditProfilePopupOpen}
-            onClose={closeAllPopups}
-            buttonText="Сохранить"
-          >
-            <input
-              minLength="2"
-              maxLength="40"
-              type="text"
-              className="popup__input popup__input_type_name"
-              name="name"
-              id="name-input"
-              placeholder="Имя"
-              required
-            />
-            <span className="popup__input-error" id="name-input-error"></span>
-            <input
-              minLength="2"
-              maxLength="200"
-              type="text"
-              className="popup__input popup__input_type_profession"
-              name="profession"
-              id="profession-input"
-              placeholder="Профессия"
-              required
-            />
-            <span
-              className="popup__input-error"
-              id="profession-input-error"
-            ></span>
-          </PopupWithForm>
+          
 
           <PopupWithForm
             name="card-add"
