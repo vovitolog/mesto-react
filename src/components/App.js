@@ -2,9 +2,9 @@ import React from "react";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
-import PopupWithForm from "./PopupWithForm"; ///Убрать
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
+import AddPlacePopup from "./AddPlacePopup";
 import ImagePopup from "./ImagePopup";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import api from "../utils/Api";
@@ -76,6 +76,46 @@ function App() {
       });
   }
 
+  const [cards, setCards] = React.useState([]);
+
+   function handleCardLike(card) {
+    
+    const isLiked = card.likes.some((i) => i._id === currentUser._id);
+
+    api
+      .changeLikeCardStatus(card._id, !isLiked)
+      .then((newCard) => {
+        setCards((state) =>
+          state.map((c) => (c._id === card._id ? newCard : c))
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  function handleCardDelete(card) {
+    api.deleteCard(card._id).then(() => {
+      const newCards = cards.filter((c) => c._id !== card._id);
+      setCards(newCards);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  }
+
+  React.useEffect(() => {
+    api
+      .getInitialCards()
+      .then((data) => {
+        setCards(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="container">
@@ -86,6 +126,10 @@ function App() {
             onEditProfile={handleEditProfileClick}
             onAddPlace={handleAddPlaceClick}
             onCardClick={handleCardClick}
+            cards={cards}
+            onCardLike={handleCardLike}
+            onCardDelete={handleCardDelete}
+
           />
           <Footer />
           <EditProfilePopup
@@ -100,41 +144,11 @@ function App() {
             onUpdateAvatar={handleUpdateAvatar}
           />
 
-          <PopupWithForm
-            name="card-add"
-            title="Новое место"
-            children=""
+          <AddPlacePopup
             isOpen={isAddPlacePopupOpen}
             onClose={closeAllPopups}
-            buttonText="Сохранить"
-          >
-            <input
-              minLength="2"
-              maxLength="30"
-              type="text"
-              className="popup__input popup__input_type_place"
-              name="place-name"
-              id="place-name-input"
-              placeholder="Название"
-              required
-            />
-            <span
-              className="popup__input-error"
-              id="place-name-input-error"
-            ></span>
-            <input
-              type="url"
-              className="popup__input popup__input_type_url"
-              name="image-url"
-              id="image-url-input"
-              placeholder="Ссылка на картинку"
-              required
-            />
-            <span
-              className="popup__input-error"
-              id="image-url-input-error"
-            ></span>
-          </PopupWithForm>
+            onUpdateAvatar={handleUpdateAvatar}
+          />
 
           <ImagePopup card={selectedCard} onClose={closeAllPopups} />
         </div>
