@@ -2,7 +2,27 @@ import React from "react";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import PopupWithForm from "./PopupWithForm";
 
-function EditProfilePopup ({ isOpen, onClose }) {
+function EditProfilePopup ({ isOpen, onClose, onUpdateUser }) {
+    const currentUser = React.useContext(CurrentUserContext);
+    const [name, setName] = React.useState({});
+    const [profession, setProfession] = React.useState({});
+
+    React.useEffect(() => {
+        setName(currentUser.name);
+        setProfession(currentUser.about);
+      }, [currentUser]); 
+
+      function handleSubmit(e) {
+        // Запрещаем браузеру переходить по адресу формы
+        e.preventDefault();
+      
+        // Передаём значения управляемых компонентов во внешний обработчик
+        onUpdateUser({
+          name,
+          profession,
+        });
+      } 
+
     return(
         <PopupWithForm
             name="profile-edit"
@@ -11,6 +31,7 @@ function EditProfilePopup ({ isOpen, onClose }) {
             isOpen={isOpen}
             onClose={onClose}
             buttonText="Сохранить"
+            handleSubmit={handleSubmit}
           >
             <input
               minLength="2"
@@ -20,6 +41,7 @@ function EditProfilePopup ({ isOpen, onClose }) {
               name="name"
               id="name-input"
               placeholder="Имя"
+              onChange={(event) => setName(event.target.value)}
               required
             />
             <span className="popup__input-error" id="name-input-error"></span>
@@ -31,6 +53,7 @@ function EditProfilePopup ({ isOpen, onClose }) {
               name="profession"
               id="profession-input"
               placeholder="Профессия"
+              onChange={(event) => setProfession(event.target.value)}
               required
             />
             <span

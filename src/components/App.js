@@ -3,7 +3,7 @@ import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
 import PopupWithForm from "./PopupWithForm"; ///Убрать
-import EditProfilePopup from './EditProfilePopup';
+import EditProfilePopup from "./EditProfilePopup";
 import ImagePopup from "./ImagePopup";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import api from "../utils/Api";
@@ -20,11 +20,11 @@ function App() {
   });
   const [currentUser, setCurrentUser] = React.useState({});
 
-    React.useEffect(() => {
+  React.useEffect(() => {
     api
       .getUserInfo()
       .then((data) => {
-        setCurrentUser(data);        
+        setCurrentUser(data);
       })
       .catch((error) => {
         console.log(error);
@@ -51,6 +51,16 @@ function App() {
     setSelectedCard({ name: "", link: "" });
   }
 
+  function handleUpdateUser({name, profession}) {
+    api.setNewUserInfo({name, profession}).then((data)=>{
+      setCurrentUser(data);
+      closeAllPopups();   
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="container">
@@ -63,8 +73,11 @@ function App() {
             onCardClick={handleCardClick}
           />
           <Footer />
-          <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} /> 
-
+          <EditProfilePopup
+            isOpen={isEditProfilePopupOpen}
+            onClose={closeAllPopups}
+            onUpdateUser={handleUpdateUser}
+          />
 
           <PopupWithForm
             name="photo-edit"
@@ -87,8 +100,6 @@ function App() {
               id="photo-url-input-error"
             ></span>
           </PopupWithForm>
-
-          
 
           <PopupWithForm
             name="card-add"
