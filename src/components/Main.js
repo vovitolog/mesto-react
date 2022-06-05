@@ -10,7 +10,6 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
   const currentUser = React.useContext(CurrentUserContext);
 
   function handleCardLike(card) {
-    console.log("click");
     // Снова проверяем, есть ли уже лайк на этой карточке
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
 
@@ -25,6 +24,15 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
       .catch((error) => {
         console.log(error);
       });
+  }
+
+  function handleCardDelete(card) {
+    api.deleteCard(card._id).then(() => {
+      const newCards = cards.filter((c) => c._id !== card._id);
+      setCards(newCards);
+    });
+
+    //
   }
 
   React.useEffect(() => {
@@ -75,6 +83,7 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
               key={card._id}
               onCardClick={onCardClick}
               onCardLike={handleCardLike}
+              onCardDelete={handleCardDelete}
             />
           ))}
         </ul>
