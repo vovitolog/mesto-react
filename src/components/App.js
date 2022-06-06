@@ -20,12 +20,24 @@ function App() {
     link: "",
   });
   const [currentUser, setCurrentUser] = React.useState({});
+  const [cards, setCards] = React.useState([]);
 
   React.useEffect(() => {
     api
       .getUserInfo()
       .then((data) => {
         setCurrentUser(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  React.useEffect(() => {
+    api
+      .getInitialCards()
+      .then((data) => {
+        setCards(data);
       })
       .catch((error) => {
         console.log(error);
@@ -76,10 +88,20 @@ function App() {
       });
   }
 
-  const [cards, setCards] = React.useState([]);
+  function handleAddPlaceSubmit({ name, link }) {
+    console.log(link);
+    api
+      .addNewCard(name, link)
+      .then((newCard) => {
+        setCards([newCard, ...cards]);
+        closeAllPopups();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 
-   function handleCardLike(card) {
-    
+  function handleCardLike(card) {
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
 
     api
@@ -95,26 +117,16 @@ function App() {
   }
 
   function handleCardDelete(card) {
-    api.deleteCard(card._id).then(() => {
-      const newCards = cards.filter((c) => c._id !== card._id);
-      setCards(newCards);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-  }
-
-  React.useEffect(() => {
     api
-      .getInitialCards()
-      .then((data) => {
-        setCards(data);
+      .deleteCard(card._id)
+      .then(() => {
+        const newCards = cards.filter((c) => c._id !== card._id);
+        setCards(newCards);
       })
       .catch((error) => {
         console.log(error);
       });
-  }, []);
-
+  }
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -129,7 +141,6 @@ function App() {
             cards={cards}
             onCardLike={handleCardLike}
             onCardDelete={handleCardDelete}
-
           />
           <Footer />
           <EditProfilePopup
@@ -147,7 +158,7 @@ function App() {
           <AddPlacePopup
             isOpen={isAddPlacePopupOpen}
             onClose={closeAllPopups}
-            onUpdateAvatar={handleUpdateAvatar}
+            onAddPlace={handleAddPlaceSubmit}
           />
 
           <ImagePopup card={selectedCard} onClose={closeAllPopups} />
