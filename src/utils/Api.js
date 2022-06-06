@@ -82,9 +82,7 @@ class Api {
   changeLikeCardStatus(cardId, isLiked) {
     return !isLiked ? this.removeLike(cardId) : this.addLike(cardId);
   }
-  
 }
-
 
 const api = new Api({
   baseUrl: "https://mesto.nomoreparties.co/v1/cohort-40",

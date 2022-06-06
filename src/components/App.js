@@ -89,7 +89,6 @@ function App() {
   }
 
   function handleAddPlaceSubmit({ name, link }) {
-    console.log(link);
     api
       .addNewCard(name, link)
       .then((newCard) => {

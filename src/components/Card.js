@@ -5,12 +5,12 @@ function Card({ card, onCardClick, onCardLike, onCardDelete }) {
   const currentUser = React.useContext(CurrentUserContext);
   const isOwn = card.owner._id === currentUser._id;
 
-  const cardDeleteButtonClassName = `${isOwn ? "card__button-delete" : ""}`;
+  const cardDeleteButtonClassName = `card__button-delete ${
+    isOwn ? "card__button-delete_visible" : "card__button-delete_hidden"
+  }`;
 
   const isLiked = card.likes.some((i) => i._id === currentUser._id);
-  //console.log(isLiked);
 
-  // Создаём переменную, которую после зададим в `className` для кнопки лайка
   const cardLikeButtonClassName = `card__like ${
     isLiked ? "card__like_is-pressed" : ""
   }`;
